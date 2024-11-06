@@ -58,6 +58,7 @@ MIDDLEWARE = [
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'EXCEPTION_HANDLER': 'ravenloft.exception_handling.custom_exception_handler',
 }
 
 SPECTACULAR_SETTINGS = {
