@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from ravenloft.models import Realm
+from ravenloft.models import Domain
 
 
-class RealmSerializer(serializers.ModelSerializer):
+class DomainSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Realm
+        model = Domain
         fields = [
             "id",
             "name",

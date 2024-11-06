@@ -1,13 +1,13 @@
 from rest_framework import generics
-from .models import Realm
-from .serializers import RealmSerializer
+from .models import Domain
+from .serializers import DomainSerializer
 
 
-class RealmList(generics.ListCreateAPIView):
-    queryset = Realm.objects.all()
-    serializer_class = RealmSerializer
+class DomainList(generics.ListCreateAPIView):
+    queryset = Domain.objects.all()
+    serializer_class = DomainSerializer
 
 
-class RealmDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Realm.objects.all()
-    serializer_class = RealmSerializer
+class DomainDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Domain.objects.all()
+    serializer_class = DomainSerializer

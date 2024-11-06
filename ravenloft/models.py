@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Realm(models.Model):
+class Domain(models.Model):
     name = models.CharField(unique=True)
     domain_lord = models.CharField(default="unknown")
     notes = models.TextField(blank=True, default="")

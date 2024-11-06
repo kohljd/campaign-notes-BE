@@ -1,33 +1,33 @@
 import pytest
 
 from django.db import IntegrityError
-from ravenloft.models import Realm
+from ravenloft.models import Domain
 
 
 @pytest.mark.django_db
 def test_default_attributes():
-    realm = Realm.objects.create(name="Lamordia")
-    assert realm.name == "Lamordia"
-    assert realm.domain_lord == "unknown"
-    assert realm.notes == ""
-    assert realm.updated_at is not None
+    domain = Domain.objects.create(name="Lamordia")
+    assert domain.name == "Lamordia"
+    assert domain.domain_lord == "unknown"
+    assert domain.notes == ""
+    assert domain.updated_at is not None
 
 
 @pytest.mark.django_db
 def test_unique_name():
-    Realm.objects.create(name="Lamordia")
+    Domain.objects.create(name="Lamordia")
     with pytest.raises(IntegrityError):
-        Realm.objects.create(name="Lamordia")
+        Domain.objects.create(name="Lamordia")
 
 
 @pytest.mark.django_db
 def test_list_alphabetically_by_name():
-    realm_1 = Realm.objects.create(name="Lamordia")
-    realm_2 = Realm.objects.create(name="Barovia")
-    assert list(Realm.objects.all()) == [realm_2, realm_1]
+    domain_1 = Domain.objects.create(name="Lamordia")
+    domain_2 = Domain.objects.create(name="Barovia")
+    assert list(Domain.objects.all()) == [domain_2, domain_1]
 
 
 @pytest.mark.django_db
 def test_list_by_name():
-    realm = Realm.objects.create(name="Lamordia")
-    assert str(realm) == "Lamordia"
+    domain = Domain.objects.create(name="Lamordia")
+    assert str(domain) == "Lamordia"
