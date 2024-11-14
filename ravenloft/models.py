@@ -1,6 +1,19 @@
 from django.db import models
 
 
+class LivingStatus(models.IntegerChoices):
+    ALIVE = 1
+    DEAD = 2
+    UNKNOWN = 3
+
+
+class PartyRelationship(models.IntegerChoices):
+    FRIENDLY = 1
+    NEUTRAL = 2
+    ADVERSARIAL = 3
+    UNCERTAIN = 4
+
+
 class Domain(models.Model):
     name = models.CharField(unique=True, max_length=60)
     domain_lord = models.CharField(default="unknown")
@@ -10,6 +23,28 @@ class Domain(models.Model):
 
     class Meta:
         ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
+class Npc(models.Model):
+    name = models.CharField(max_length=60)
+    appearance = models.TextField(blank=True)
+    living_status = models.IntegerField(
+        choices=LivingStatus.choices,
+        default=LivingStatus.ALIVE
+    )
+    relationship_to_party = models.IntegerField(
+        choices=PartyRelationship.choices,
+        default=PartyRelationship.NEUTRAL
+    )
+    notes = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["name", "pk"]
 
     def __str__(self):
         return self.name
