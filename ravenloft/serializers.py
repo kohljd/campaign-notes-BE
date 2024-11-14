@@ -10,5 +10,6 @@ class DomainSerializer(serializers.ModelSerializer):
             "name",
             "domain_lord",
             "notes",
+            "created_at",
             "updated_at"
         ]
