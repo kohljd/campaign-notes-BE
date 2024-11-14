@@ -54,3 +54,18 @@ class Quest(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Session(models.Model):
+    title = models.CharField(max_length=60)
+    date = models.DateField()
+    notes = models.TextField(blank=True)
+    summary = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-date"]
+
+    def __str__(self):
+        return self.title
