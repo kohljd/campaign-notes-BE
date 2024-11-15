@@ -1,12 +1,12 @@
 import pytest
 
 from ravenloft.models import Npc
+from ..factories.npc_factory import NpcFactory
 
 
 @pytest.mark.django_db
 def test_create_npc_with_default_values():
     npc = Npc.objects.create(name="Aria")
-
     assert npc.name == "Aria"
     assert npc.appearance == ""
     assert npc.living_status == 1
@@ -20,15 +20,13 @@ def test_create_npc_with_default_values():
 
 @pytest.mark.django_db
 def test_list_alphabetically_by_name_then_pk():
-    npc_1 = Npc.objects.create(name="Aria")
-    npc_2 = Npc.objects.create(name="Leo")
-    npc_3 = Npc.objects.create(name="Aria")
-
+    npc_1 = NpcFactory(name="Aria")
+    npc_2 = NpcFactory(name="Leo")
+    npc_3 = NpcFactory(name="Aria")
     assert list(Npc.objects.all()) == [npc_1, npc_3, npc_2]
 
 
 @pytest.mark.django_db
 def test_str():
-    npc = Npc.objects.create(name="Aria")
-
+    npc = NpcFactory(name="Aria")
     assert str(npc) == "Aria"
