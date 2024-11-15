@@ -1,6 +1,15 @@
 from django.db import models
 
 
+class CreatureSize(models.IntegerChoices):
+    TINY = 1
+    SMALL = 2
+    MEDIUM = 3
+    LARGE = 4
+    HUGE = 5
+    GARGANTUAN = 6
+
+
 class LivingStatus(models.IntegerChoices):
     ALIVE = 1
     DEAD = 2
@@ -45,6 +54,33 @@ class Npc(models.Model):
 
     class Meta:
         ordering = ["name", "pk"]
+
+    def __str__(self):
+        return self.name
+
+
+class PlayerCharacter(models.Model):
+    name = models.CharField(max_length=60)
+    adventuring_goal = models.TextField(blank=True)
+    appearance = models.TextField(blank=True)
+    background = models.TextField(blank=True)
+    deities = models.TextField(blank=True)
+    dnd_class = models.CharField(max_length=30)
+    living_status = models.IntegerField(
+        choices=LivingStatus.choices,
+        default=LivingStatus.ALIVE
+    )
+    notes = models.TextField(blank=True)
+    race = models.CharField(max_length=30)
+    size = models.IntegerField(
+        choices=CreatureSize.choices,
+        default=CreatureSize.MEDIUM
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["name"]
 
     def __str__(self):
         return self.name
