@@ -23,6 +23,26 @@ class PartyRelationship(models.IntegerChoices):
     UNCERTAIN = 4
 
 
+class Creature(models.Model):
+    name = models.CharField(unique=True, max_length=60)
+    combat_notes = models.TextField(blank=True)
+    description = models.TextField(blank=True)
+    languages = models.TextField(default="None")
+    notes = models.TextField(blank=True)
+    size = models.IntegerField(
+        choices=CreatureSize.choices,
+        default=CreatureSize.MEDIUM
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
 class Domain(models.Model):
     name = models.CharField(unique=True, max_length=60)
     domain_lord = models.CharField(default="unknown")
@@ -54,6 +74,30 @@ class Npc(models.Model):
 
     class Meta:
         ordering = ["name", "pk"]
+
+    def __str__(self):
+        return self.name
+
+
+class Pet(models.Model):
+    name = models.CharField(unique=True, max_length=60)
+    description = models.TextField(blank=True)
+    languages = models.TextField(default="None")
+    living_status = models.IntegerField(
+        choices=LivingStatus.choices,
+        default=LivingStatus.ALIVE
+    )
+    notes = models.TextField(blank=True)
+    size = models.IntegerField(
+        choices=CreatureSize.choices,
+        default=CreatureSize.MEDIUM
+    )
+    species = models.CharField(max_length=60)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["name"]
 
     def __str__(self):
         return self.name
