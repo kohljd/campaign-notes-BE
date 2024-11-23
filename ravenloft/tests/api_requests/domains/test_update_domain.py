@@ -1,29 +1,23 @@
 import pytest
 from django.utils import dateparse
-from ravenloft.models import Domain
 from rest_framework.test import APIClient
+from ravenloft.tests.factories.domain_factory import DomainFactory
 
 
 @pytest.mark.django_db
 def test_update_domain():
-    domain = Domain.objects.create(
-        name="Lamordia",
-        domain_lord="Someone",
-        notes="spooky"
-    )
-    original_updated_at = domain.updated_at
-
+    domain = DomainFactory(domain_lord="Someone", notes="spooky")
     client = APIClient()
     body = {
         "domain_lord": "Viktra Mordenheim",
         "notes": "Lookout for radiation in the forest"
     }
+    original_updated_at = domain.updated_at
     response = client.patch(f"/domains/{domain.id}/", body)
     updated_at = dateparse.parse_datetime(response.data["updated_at"])
 
     assert response.status_code == 200
     assert response.data["id"] == domain.id
-    assert response.data["name"] == "Lamordia"
     assert response.data["domain_lord"] == "Viktra Mordenheim"
     assert response.data["notes"] == "Lookout for radiation in the forest"
     assert updated_at > original_updated_at

@@ -1,6 +1,6 @@
 from rest_framework import generics
-from .models import Domain
-from .serializers import DomainSerializer
+from .models import Domain, Quest
+from .serializers import DomainSerializer, QuestSerializer
 
 
 class DomainList(generics.ListCreateAPIView):
@@ -11,3 +11,13 @@ class DomainList(generics.ListCreateAPIView):
 class DomainDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Domain.objects.all()
     serializer_class = DomainSerializer
+
+
+class QuestList(generics.ListCreateAPIView):
+    queryset = Quest.objects.all()
+    serializer_class = QuestSerializer
+
+
+class QuestDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Quest.objects.all()
+    serializer_class = QuestSerializer
