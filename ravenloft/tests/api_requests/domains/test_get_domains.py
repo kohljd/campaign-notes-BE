@@ -1,12 +1,12 @@
 import pytest
-from ravenloft.models import Domain
 from rest_framework.test import APIClient
+from ravenloft.tests.factories.domain_factory import DomainFactory
 
 
 @pytest.mark.django_db
 def test_get_all_domains():
-    Domain.objects.create(name="Lamordia")
-    Domain.objects.create(name="Barovia")
+    DomainFactory(name="Lamordia")
+    DomainFactory(name="Barovia")
 
     client = APIClient()
     response = client.get("/domains/")

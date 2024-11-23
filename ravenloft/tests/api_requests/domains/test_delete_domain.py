@@ -1,11 +1,11 @@
 import pytest
-from ravenloft.models import Domain
 from rest_framework.test import APIClient
+from ravenloft.tests.factories.domain_factory import DomainFactory
 
 
 @pytest.mark.django_db
 def test_delete_domain():
-    domain = Domain.objects.create(name="Lamordia")
+    domain = DomainFactory()
     client = APIClient()
     response = client.delete(f"/domains/{domain.id}/")
 
