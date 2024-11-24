@@ -57,6 +57,24 @@ class Domain(models.Model):
         return self.name
 
 
+class Group(models.Model):
+    name = models.CharField(unique=True, max_length=60)
+    description = models.TextField(blank=True)
+    notes = models.TextField(blank=True)
+    relationship_to_party = models.IntegerField(
+        choices=PartyRelationship.choices,
+        default=PartyRelationship.NEUTRAL
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
 class Npc(models.Model):
     name = models.CharField(max_length=60)
     appearance = models.TextField(blank=True)
