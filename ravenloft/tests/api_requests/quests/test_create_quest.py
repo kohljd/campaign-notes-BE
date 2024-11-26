@@ -87,6 +87,8 @@ def test_valid_day_completed():
     }
     response = client.post(url, data)
     assert response.status_code == 201
+    assert response.data["day_completed"] == 5
+    assert response.data["day_given"] == 2
 
 
 @pytest.mark.django_db
