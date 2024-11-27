@@ -2,6 +2,7 @@ import pytest
 
 from django.db import IntegrityError
 from ravenloft.models import Pet
+from ..factories.group_factory import GroupFactory
 from ..factories.pet_factory import PetFactory
 
 
@@ -43,3 +44,12 @@ def test_list_alphabetically_by_name():
 def test_str():
     pet = PetFactory(name="Samson")
     assert str(pet) == "Samson"
+
+
+@pytest.mark.django_db
+def test_can_be_a_member_of_multiple_groups():
+    group_1 = GroupFactory(name="Group1")
+    group_2 = GroupFactory(name="Group2")
+    pet = PetFactory()
+    pet.groups.add(group_1, group_2)
+    assert pet.groups.count() == 2

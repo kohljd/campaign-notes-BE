@@ -58,6 +58,12 @@ class Domain(models.Model):
 
 
 class Group(models.Model):
+    npcs = models.ManyToManyField("Npc", through="GroupNpc", related_name="groups")
+    pets = models.ManyToManyField("Pet", through="GroupPet", related_name="groups")
+    player_characters = models.ManyToManyField(
+        "PlayerCharacter", through="GroupPlayerCharacter", related_name="groups"
+    )
+
     name = models.CharField(unique=True, max_length=60)
     description = models.TextField(blank=True)
     notes = models.TextField(blank=True)
@@ -73,6 +79,60 @@ class Group(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class GroupNpc(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    npc = models.ForeignKey("Npc", on_delete=models.CASCADE)
+
+    current_member = models.BooleanField(default=True)
+    role = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["group", "npc"],
+                name="unique_group_npc"
+            )
+        ]
+
+
+class GroupPet(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    pet = models.ForeignKey("Pet", on_delete=models.CASCADE)
+
+    current_member = models.BooleanField(default=True)
+    role = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["group", "pet"],
+                name="unique_group_pet"
+            )
+        ]
+
+
+class GroupPlayerCharacter(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    player_character = models.ForeignKey("PlayerCharacter", on_delete=models.CASCADE)
+
+    current_member = models.BooleanField(default=True)
+    role = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["group", "player_character"],
+                name="unique_group_pc"
+            )
+        ]
 
 
 class Npc(models.Model):
