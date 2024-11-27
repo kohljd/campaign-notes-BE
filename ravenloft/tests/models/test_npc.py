@@ -1,6 +1,7 @@
 import pytest
 
 from ravenloft.models import Npc
+from ..factories.group_factory import GroupFactory
 from ..factories.npc_factory import NpcFactory
 
 
@@ -30,3 +31,12 @@ def test_list_alphabetically_by_name_then_pk():
 def test_str():
     npc = NpcFactory(name="Aria")
     assert str(npc) == "Aria"
+
+
+@pytest.mark.django_db
+def test_npc_can_be_a_member_of_multiple_groups():
+    group_1 = GroupFactory(name="Group1")
+    group_2 = GroupFactory(name="Group2")
+    npc = NpcFactory()
+    npc.groups.add(group_1, group_2)
+    assert npc.groups.count() == 2

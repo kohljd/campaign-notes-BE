@@ -3,6 +3,7 @@ import pytest
 from django.db import IntegrityError
 from ravenloft.models import Group
 from ..factories.group_factory import GroupFactory
+from ..factories.npc_factory import NpcFactory
 
 
 @pytest.mark.django_db
@@ -35,3 +36,11 @@ def test_list_alphabetically_by_name():
 def test_str():
     group = GroupFactory(name="The Watchers")
     assert str(group) == "The Watchers"
+
+
+@pytest.mark.django_db
+def test_group_has_many_npcs():
+    npc1 = NpcFactory(name="Aria")
+    npc2 = NpcFactory(name="Balto")
+    group = GroupFactory(npcs=[npc1, npc2])
+    assert group.npcs.count() == 2
