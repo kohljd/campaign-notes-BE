@@ -59,6 +59,7 @@ class Domain(models.Model):
 
 class Group(models.Model):
     npcs = models.ManyToManyField("Npc", through="GroupNpc", related_name="groups")
+    pets = models.ManyToManyField("Pet", through="GroupPet", related_name="groups")
     player_characters = models.ManyToManyField(
         "PlayerCharacter", through="GroupPlayerCharacter", related_name="groups"
     )
@@ -94,6 +95,24 @@ class GroupNpc(models.Model):
             models.UniqueConstraint(
                 fields=["group", "npc"],
                 name="unique_group_npc"
+            )
+        ]
+
+
+class GroupPet(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    pet = models.ForeignKey("Pet", on_delete=models.CASCADE)
+
+    current_member = models.BooleanField(default=True)
+    role = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["group", "pet"],
+                name="unique_group_pet"
             )
         ]
 

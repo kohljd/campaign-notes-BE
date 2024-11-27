@@ -23,3 +23,9 @@ class GroupFactory(factory.django.DjangoModelFactory):
         if not create or not extracted:
             return
         self.player_characters.add(*extracted)
+
+    @factory.post_generation
+    def pets(self, create, extracted, **kwargs):
+        if not create or not extracted:
+            return
+        self.pets.add(*extracted)
