@@ -4,6 +4,7 @@ from django.db import IntegrityError
 from ravenloft.models import Group
 from ..factories.group_factory import GroupFactory
 from ..factories.npc_factory import NpcFactory
+from ..factories.player_character_factory import PlayerCharacterFactory
 
 
 @pytest.mark.django_db
@@ -40,7 +41,13 @@ def test_str():
 
 @pytest.mark.django_db
 def test_group_has_many_npcs():
-    npc1 = NpcFactory(name="Aria")
-    npc2 = NpcFactory(name="Balto")
-    group = GroupFactory(npcs=[npc1, npc2])
+    npcs = NpcFactory.create_batch(size=2)
+    group = GroupFactory(npcs=npcs)
     assert group.npcs.count() == 2
+
+
+@pytest.mark.django_db
+def test_group_has_many_pcs():
+    pcs = PlayerCharacterFactory.create_batch(size=2)
+    group = GroupFactory(player_characters=pcs)
+    assert group.player_characters.count() == 2

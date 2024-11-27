@@ -1,6 +1,7 @@
 import pytest
 
 from ravenloft.models import PlayerCharacter
+from ..factories.group_factory import GroupFactory
 from ..factories.player_character_factory import PlayerCharacterFactory
 
 
@@ -39,3 +40,12 @@ def test_list_alphabetically_by_name():
 def test_str():
     pc = PlayerCharacterFactory(name="Sophie")
     assert str(pc) == "Sophie"
+
+
+@pytest.mark.django_db
+def test_can_be_a_member_of_multiple_groups():
+    group_1 = GroupFactory(name="Group1")
+    group_2 = GroupFactory(name="Group2")
+    pc = PlayerCharacterFactory()
+    pc.groups.add(group_1, group_2)
+    assert pc.groups.count() == 2
