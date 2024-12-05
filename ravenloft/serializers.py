@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ravenloft.models import Domain, Quest
+from ravenloft.models import (Domain, LivingStatus, Npc, PartyRelationship, Quest)
 
 
 class DisplayChoiceField(serializers.ChoiceField):
@@ -29,6 +29,27 @@ class DomainSerializer(serializers.ModelSerializer):
         ]
 
 
+class NpcSerializer(serializers.ModelSerializer):
+    living_status = DisplayChoiceField(choices=LivingStatus.choices, required=False)
+    relationship_to_party = DisplayChoiceField(
+        choices=PartyRelationship.choices,
+        required=False
+    )
+
+    class Meta:
+        model = Npc
+        fields = [
+            "id",
+            "name",
+            "appearance",
+            "living_status",
+            "relationship_to_party",
+            "notes",
+            "created_at",
+            "updated_at"
+        ]
+
+
 class QuestSerializer(serializers.ModelSerializer):
     status = DisplayChoiceField(choices=Quest.Status.choices, required=False)
 
@@ -37,7 +58,6 @@ class QuestSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "name",
-            "created_at",
             "day_completed",
             "day_given",
             "given_by",
@@ -46,6 +66,7 @@ class QuestSerializer(serializers.ModelSerializer):
             "reward",
             "status",
             "time_sensitive",
+            "created_at",
             "updated_at"
         ]
 
